@@ -1,0 +1,31 @@
+{
+  "name": "rststore",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/GatehiFelix/rst-project#readme",
+  "bugs": {
+    "url": "https://github.com/GatehiFelix/rst-project/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GatehiFelix/rst-project.git"
+  },
+  "license": "ISC",
+  "author": "felix",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": " node semver/main.js ",
+    "server": "nodemon server/main.js ",
+    "client": "npm run dev --prefix-client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "nodemon": "^3.1.11"
+  }
+}
