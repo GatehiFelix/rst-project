@@ -1,7 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import morgan from 'morgan';
 
-import products from '#data/products.js';
+import products from '#data/products.data.js';
 import connectDB from '#config/db.config.js';
 
 
@@ -13,7 +14,7 @@ connectDB();
 
 const app = express();
 
-
+app.use(morgan('dev'));
 app.get('/', (req, res) => {
     res.send('API is running...');
 });

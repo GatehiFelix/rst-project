@@ -6,7 +6,7 @@
   "bugs": {
     "url": "https://github.com/GatehiFelix/rst-project/issues"
   },
-  "imports":{
+  "imports": {
     "#config/*": "./server/config/*",
     "#data/*": "./server/data/*"
   },
@@ -25,9 +25,11 @@
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
-    "mongoose": "^9.1.2"
+    "mongoose": "^9.1.2",
+    "morgan": "^1.10.1"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.28.5",
