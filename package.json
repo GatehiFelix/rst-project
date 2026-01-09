@@ -6,6 +6,10 @@
   "bugs": {
     "url": "https://github.com/GatehiFelix/rst-project/issues"
   },
+  "imports":{
+    "#config/*": "./server/config/*",
+    "#data/*": "./server/data/*"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/GatehiFelix/rst-project.git"
@@ -26,6 +30,7 @@
     "mongoose": "^9.1.2"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.28.5",
     "concurrently": "^9.2.1",
     "nodemon": "^3.1.11"
   }
