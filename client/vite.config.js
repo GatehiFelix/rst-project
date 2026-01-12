@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     port: 3000,
     proxy: {
-      'api/': {
+      '/api': {
         target: 'http://localhost:5000',
         changeOrigin: true,
       }
@@ -18,6 +18,7 @@ export default defineConfig({
       '@components': '/src/components',
       '@data': '/src/data',
       '@screens': '/src/screens',
+      '@slices': '/src/slices',
     }
   }
 });

@@ -8,7 +8,11 @@
   },
   "imports": {
     "#config/*": "./server/config/*",
-    "#data/*": "./server/data/*"
+    "#data/*": "./server/data/*",
+    "#models/*": "./server/models/*",
+    "#routes/*": "./server/routes/*",
+    "#middlewares/*": "./server/middlewares/*",
+    "#controllers/*": "./server/controllers/*"
   },
   "repository": {
     "type": "git",
@@ -21,11 +25,14 @@
   "scripts": {
     "start": " node semver/main.js ",
     "server": "nodemon server/main.js ",
-    "client": "npm run dev --prefix-client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "client": "npm run dev --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "data:import": "node server/seeder",
+    "data:destroy": "node server/seeder -d"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
+    "colors": "^1.4.0",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "mongoose": "^9.1.2",

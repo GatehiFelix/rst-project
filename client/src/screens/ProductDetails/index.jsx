@@ -1,27 +1,18 @@
-import axios from "axios"
-import { useEffect, useState } from "react"
-import  { Link, useParams } from "react-router-dom"
 import ReactMarkdown from "react-markdown"
-
+import  { Link, useParams } from "react-router-dom"
 import { ArrowUturnLeftIcon } from "@heroicons/react/24/outline"
 
+import Alert from "@components/Alert"
+import Loader from "@components/Loader"
 import Rating from "@components/ProductCard/Rating"
+import { useGetProductDetailsQuery } from "@slices/productApiSlice"
 import QuantitySelector from "./QuantitySelector"
 
 
 const ProductDetailsScreen = () => {
     const { id: productId } = useParams();
     console.log("Product ID:", productId);
-    const [product, setProduct] = useState(null);
-
-    useEffect(() => {
-        const fetchProduct = async () => {
-            const { data } = await axios.get(`/api/v1/products/${productId}`);
-            setProduct(data);
-        }
-
-        fetchProduct();
-    }, [productId]);
+    const { data: product, isLoading, isError, error} = useGetProductDetailsQuery(productId);
 
   return (
     <div className="bg-white pb-16 pt-6 sm:pb-24">
@@ -33,6 +24,13 @@ const ProductDetailsScreen = () => {
             >
                 <ArrowUturnLeftIcon className="h-5 w-5"/> Back
             </Link>
+
+            {isLoading ? (
+                <Loader />
+            ): isError ? (
+                <Alert type="error">{error?.data?.message || error.error}</Alert>
+            ) : (
+
             <div className="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8">
                 {/* prod image */}
                 <div className="mt-8 lg:col-span-7 lg:mt-0">
@@ -88,6 +86,7 @@ const ProductDetailsScreen = () => {
                     </div>
                 </div>
             </div>
+            )}
         </div>
     </div>
   );
