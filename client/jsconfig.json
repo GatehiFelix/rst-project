@@ -6,6 +6,7 @@
             "@data/*":["data/*"],
             "@screens/*":["screens/*"],
             "@slices/*":["slices/*"],
+            "@utils/*":["utils/*"]
         },
     }
 

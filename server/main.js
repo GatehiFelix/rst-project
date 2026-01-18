@@ -2,10 +2,12 @@ import express from 'express';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
 import colors from 'colors';
+import cookieParser from 'cookie-parser';
 
 import connectDB from '#config/db.config.js';
 import { errorHandler} from '#middlewares/error.middleware.js';
 import productRoutes from '#routes/product.routes.js';
+import userRoutes  from '#routes/user.routes.js';
 
 
 dotenv.config();
@@ -15,6 +17,10 @@ const port = process.env.PORT || 5000;
 connectDB();
 
 const app = express();
+app.use(express.json());
+app.use(cookieParser());
+
+
 
 app.use(morgan('dev'));
 app.get('/', (req, res) => {
@@ -22,6 +28,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/v1/products', productRoutes);
+app.use('/api/v1/users', userRoutes);
 
 app.use(errorHandler);
 
