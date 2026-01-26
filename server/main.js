@@ -8,6 +8,7 @@ import connectDB from '#config/db.config.js';
 import { errorHandler} from '#middlewares/error.middleware.js';
 import productRoutes from '#routes/product.routes.js';
 import userRoutes  from '#routes/user.routes.js';
+import orderRoutes from '#routes/order.routes.js';
 
 
 dotenv.config();
@@ -29,9 +30,14 @@ app.get('/', (req, res) => {
 
 app.use('/api/v1/products', productRoutes);
 app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/orders', orderRoutes);
+
+app.use('/api/v1/config/paypal', (req, res) => {
+    res.json({ clientId: process.env.PAYPAL_CLIENT_ID });
+});
 
 app.use(errorHandler);
 
 app.listen(port, () => {
-    console.log(`Server is running in ${process.env.NODE_ENV} mode on port: ${port}`.yellow.bold);
+    console.log(`Server is running in ${process.env.NODE_ENV} mode on port: ${port}`.yellow);
 });
