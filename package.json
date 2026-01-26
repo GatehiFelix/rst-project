@@ -12,7 +12,8 @@
     "#models/*": "./server/models/*",
     "#routes/*": "./server/routes/*",
     "#middlewares/*": "./server/middlewares/*",
-    "#controllers/*": "./server/controllers/*"
+    "#controllers/*": "./server/controllers/*",
+    "#utils/*": "./server/utils/*"
   },
   "repository": {
     "type": "git",
@@ -23,7 +24,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": " node semver/main.js ",
+    "start": " node server/main.js ",
     "server": "nodemon server/main.js ",
     "client": "npm run dev --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
