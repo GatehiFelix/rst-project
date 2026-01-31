@@ -3,14 +3,24 @@ import { Link } from 'react-router-dom';
 
 import Alert from '@components/Alert';
 import Loader from '@components/Loader';
-import { useGetUsersQuery } from '@slices/userApiSlice';
+import { useGetUsersQuery, useDeleteUserMutation } from '@slices/userApiSlice';
+import { toast } from 'react-toastify';
 
 const UserListScreen = () => {
 	const { data: users, error, isLoading, refetch } = useGetUsersQuery();
 
+    const [deleteUser, { isLoading: loadingDelete }] = useDeleteUserMutation();
+
 	const handleDelete = async (id) => {
 		if (window.confirm('Are you sure?')) {
-			console.log('Delete user', id);
+			try {
+                await deleteUser(id).unwrap();
+                toast.success('User deleted successfully');
+                refetch();
+            } catch (error) {
+                toast.error(error?.data?.message || error?.message);
+            }
+            
 		}
 	};
 
@@ -82,7 +92,7 @@ const UserListScreen = () => {
 												</td>
 												<td className='relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0'>
 													<Link
-														to={`/admin/product/${user._id}/edit`}
+														to={`/admin/user/${user._id}/edit`}
 														className='text-indigo-600 hover:text-indigo-900'>
 														Edit
 													</Link>
@@ -90,7 +100,7 @@ const UserListScreen = () => {
 														onClick={() => handleDelete(user._id)}
 														type='button'
 														className='ml-3 rounded bg-red-50 px-2 py-1 text-sm font-semibold text-red-700 shadow-sm ring-1 ring-inset ring-red-300 hover:bg-red-50'>
-														{isLoading ? 'Loading...' : 'Delete'}
+														{loadingDelete ? 'Loading...' : 'Delete'}
 													</button>
 												</td>
 											</tr>
