@@ -31,7 +31,6 @@ const LoginScreen = () => {
 
 		try {
 			const response = await login({ email, password }).unwrap();
-			console.log("Login response:", response);
 			dispatch(setCredentials({ ...response }));
 			navigate(redirect);
 		} catch (error) {

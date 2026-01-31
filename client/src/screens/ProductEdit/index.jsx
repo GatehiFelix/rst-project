@@ -63,11 +63,12 @@ const ProductEditScreen = () => {
 			content,
 		};
 		const result = await updateProduct(updatedProduct).unwrap();
+		
 		if (result.error) {
 			toast.error(result?.error);
 		} else {
 			toast.success('Product updated successfully');
-			navigate(`/admin/productlist`);
+			navigate(`/admin/product-list`);
 		}
 	};
 
@@ -114,7 +115,7 @@ const ProductEditScreen = () => {
 												onChange={(e) => setName(e.target.value)}
 												id='name'
 												type='text'
-												className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+												className='block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
 											/>
 										</div>
 									</div>
@@ -131,7 +132,7 @@ const ProductEditScreen = () => {
 												onChange={(e) => setPrice(e.target.value)}
 												id='price'
 												type='number'
-												className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+												className='block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
 											/>
 										</div>
 									</div>
@@ -149,12 +150,12 @@ const ProductEditScreen = () => {
 												onChange={(e) => setImage(e.target.value)}
 												id='image'
 												type='text'
-												className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+												className='block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
 											/>
 											<input
 												onChange={handleUploadFile}
 												type='file'
-												className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+												className='block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
 											/>
 										</div>
 									</div>
@@ -171,7 +172,7 @@ const ProductEditScreen = () => {
 												onChange={(e) => setBrand(e.target.value)}
 												id='brand'
 												type='text'
-												className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+												className='block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
 											/>
 										</div>
 									</div>
@@ -188,7 +189,7 @@ const ProductEditScreen = () => {
 												onChange={(e) => setCountInStock(e.target.value)}
 												id='countInStock'
 												type='number'
-												className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+												className='block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
 											/>
 										</div>
 									</div>
@@ -205,7 +206,7 @@ const ProductEditScreen = () => {
 												onChange={(e) => setCategory(e.target.value)}
 												id='category'
 												type='text'
-												className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+												className='block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
 											/>
 										</div>
 									</div>
@@ -222,8 +223,8 @@ const ProductEditScreen = () => {
 												onChange={(e) => setDescription(e.target.value)}
 												id='description'
 												rows={3}
-												className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
-												defaultValue={''}
+												className='block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+												// defaultValue={''}
 											/>
 										</div>
 										<p className='mt-3 text-sm leading-6 text-gray-600'>
@@ -243,7 +244,7 @@ const ProductEditScreen = () => {
 												onChange={(e) => setContent(e.target.value)}
 												id='content'
 												rows={10}
-												className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+												className='block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
 												defaultValue={''}
 											/>
 										</div>

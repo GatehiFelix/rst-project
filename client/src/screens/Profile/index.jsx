@@ -85,7 +85,7 @@ const ProfileScreen = () => {
 										onChange={(e) => setName(e.target.value)}
 										id='full-name'
 										type='text'
-										className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+										className='block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
 									/>
 								</div>
 							</div>
@@ -102,7 +102,7 @@ const ProfileScreen = () => {
 										onChange={(e) => setEmail(e.target.value)}
 										id='email'
 										type='email'
-										className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+										className='block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
 									/>
 								</div>
 							</div>
@@ -119,7 +119,7 @@ const ProfileScreen = () => {
 										onChange={(e) => setPassword(e.target.value)}
 										id='password'
 										type='password'
-										className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+										className='block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
 									/>
 								</div>
 							</div>
@@ -135,7 +135,7 @@ const ProfileScreen = () => {
 										onChange={(e) => setConfirmPassword(e.target.value)}
 										id='confirmPassword'
 										type='password'
-										className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+										className='block w-full rounded-md border-0 py-1.5 pl-2	 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
 									/>
 								</div>
 							</div>
@@ -199,7 +199,7 @@ const ProfileScreen = () => {
 											</div>
 											<div className='flex justify-between pt-6 font-medium text-slate-900 sm:block sm:pt-0'>
 												<dt>Total amount</dt>
-												<dd className='sm:mt-1'>₹{order.totalPrice}</dd>
+												<dd className='sm:mt-1'>${order.totalPrice}</dd>
 											</div>
 
 											<Link
@@ -251,16 +251,16 @@ const ProfileScreen = () => {
 																	{item.name}
 																</div>
 																<div className='mt-1 sm:hidden'>
-																	₹{item.price}
+																	${item.price}
 																</div>
 															</div>
 														</div>
 													</td>
 													<td className='hidden py-3 pr-8 sm:table-cell'>
-														₹{item.price}
+														${item.price}
 													</td>
 													<td className='hidden py-3 pr-8 sm:table-cell'>
-														<strong>{item.qty}</strong> x ₹{item.price} = ₹
+														<strong>{item.qty}</strong> x ${item.price} = $
 														{item.qty * item.price}
 													</td>
 													<td className='whitespace-nowrap py-3 text-right font-medium'>

@@ -1,62 +1,60 @@
 import {
-    ShoppingCartIcon,
-    TagIcon,
-    UserIcon,
+	Cog8ToothIcon,
+	ShoppingCartIcon,
+	TagIcon,
+	UserIcon,
 } from '@heroicons/react/24/outline';
+import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 
-import { useSelector, useDispatch } from "react-redux";
-import {useState , useRef, useEffect} from "react";
-import { Link , useNavigate} from "react-router-dom";
-
-import MenuItem from "./MenuItem";
-import { logout } from "@slices/authSlice";
-import { useLogoutMutation } from "@slices/userApiSlice";
+import { logout } from '@slices/authSlice';
+import { useLogoutMutation } from '@slices/userApiSlice';
+import MenuItem from './MenuItem';
 
 const DesktopMenu = () => {
-    const dispatch = useDispatch(); 
-    const navigate = useNavigate();
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
-    const { cartItems } = useSelector((state) => state.cart);
-    const { userInfo } = useSelector((state) => state.auth);
+	const { cartItems } = useSelector((state) => state.cart);
+	const { userInfo } = useSelector((state) => state.auth);
 
-    const [isOpen, setIsOpen] = useState(false);
+	const [isOpen, setIsOpen] = useState(false);
 	const [adminIsOpen, setAdminIsOpen] = useState(false);
-    const menuRef = useRef(null);
-	const adminMenuRef = useRef(null);	
+	const menuRef = useRef(null);
+	const adminMenuRef = useRef(null);
 
-    const [logoutApiCall] = useLogoutMutation();
+	const [logoutApiCall] = useLogoutMutation();
 
-    const handleLogout = async () => {
-        try {
-            await logoutApiCall().unwrap();
-            dispatch(logout());
-            navigate('/');
-        } catch (error) {
-            console.error("Failed to logout:", error);
-        }
-    }
+	const handleLogout = async () => {
+		try {
+			await logoutApiCall().unwrap();
+			dispatch(logout());
+			navigate('/login');
+		} catch (error) {
+			console.error(error);
+		}
+	};
 
-    useEffect(() => {
-        const handleClickOutside = (e) => {
-            if(menuRef.current && !menuRef.current.contains(e.target)) {
-                setIsOpen(false);
-            }
+	useEffect(() => {
+		const handleClickOutside = (e) => {
+			if (menuRef.current && !menuRef.current.contains(e.target)) {
+				setIsOpen(false);
+			}
 
-			if(adminMenuRef.current && !adminMenuRef.current.contains(e.target)) {
+			if (adminMenuRef.current && !adminMenuRef.current.contains(e.target)) {
 				setAdminIsOpen(false);
 			}
-        };
+		};
 
-        document.addEventListener('mousedown', handleClickOutside);
-        
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
+		document.addEventListener('mousedown', handleClickOutside);
 
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, []);
 
-
-  return (
+	return (
 		<nav className='hidden items-center sm:ml-6 sm:flex sm:space-x-8'>
 			<MenuItem url='/categories' label='Categories' icon={TagIcon} />
 			<div className='flex items-center gap-2'>
@@ -132,9 +130,8 @@ const DesktopMenu = () => {
 					)}
 				</div>
 			)}
-
 		</nav>
 	);
-}
+};
 
 export default DesktopMenu;

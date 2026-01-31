@@ -15,7 +15,6 @@ const createOrder = async (req, res) => {
         shippingPrice,
         totalPrice,
     } = req.body;
-    console.log(req.body);
 
     if(orderItems && orderItems.length === 0) {
         res.status(400);
@@ -50,7 +49,6 @@ const createOrder = async (req, res) => {
  * @access	Private
  */
 const getMyOrders = async (req, res) => {
-    console.log(req.user);
 	const orders = await OrderModel.find({ user: req.user._id });
     res.status(200).json(orders);
 };
@@ -128,7 +126,6 @@ const updateOrderToDelivered = async (req, res) => {
  * @access	Private/Admin
  */
 const getOrders = async (req, res) => {
-	res.send('Get all orders');
     const orders = await OrderModel.find({}).populate('user', 'id name');
     res.status(200).json(orders);
 };

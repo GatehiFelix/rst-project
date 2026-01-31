@@ -5,6 +5,7 @@ import Loader from "@components/Loader";
 import {
   useGetProductsQuery,
   useCreateProductMutation,
+  useDeleteProductMutation,
 } from "@slices/productApiSlice";
 
 import {toast} from "react-toastify";
@@ -118,7 +119,7 @@ const ProductListScreen = () => {
                           {product.name}
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                          <span className="font-bold">₹{product.price}</span>
+                          <span className="font-bold">${product.price}</span>
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                           {product.category}

@@ -66,7 +66,6 @@ const OrderScreen = () => {
 	const onApprove = (data, actions) => {
 		return actions.order.capture().then(async function (details) {
 			try {
-				console.log(details);
 				await payOrder({ id: orderId, details });
 				refetch();
 				toast.success('Order paid successfully');

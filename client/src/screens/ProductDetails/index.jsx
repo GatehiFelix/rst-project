@@ -19,7 +19,6 @@ const ProductDetailsScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  console.log("Product ID:", productId);
   const {
     data: product,
     isLoading,
