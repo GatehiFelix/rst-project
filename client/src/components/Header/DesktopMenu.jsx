@@ -20,7 +20,9 @@ const DesktopMenu = () => {
     const { userInfo } = useSelector((state) => state.auth);
 
     const [isOpen, setIsOpen] = useState(false);
+	const [adminIsOpen, setAdminIsOpen] = useState(false);
     const menuRef = useRef(null);
+	const adminMenuRef = useRef(null);	
 
     const [logoutApiCall] = useLogoutMutation();
 
@@ -39,6 +41,10 @@ const DesktopMenu = () => {
             if(menuRef.current && !menuRef.current.contains(e.target)) {
                 setIsOpen(false);
             }
+
+			if(adminMenuRef.current && !adminMenuRef.current.contains(e.target)) {
+				setAdminIsOpen(false);
+			}
         };
 
         document.addEventListener('mousedown', handleClickOutside);
@@ -96,6 +102,37 @@ const DesktopMenu = () => {
 			) : (
 				<MenuItem url='/login' label='Login' icon={UserIcon} />
 			)}
+
+			{userInfo && userInfo.isAdmin && (
+				<div className='relative z-50' ref={adminMenuRef}>
+					<button
+						className='focus:outline-offset-3 rounded-full bg-gray-200 p-2 focus:outline focus:outline-2'
+						onClick={() => setAdminIsOpen(!adminIsOpen)}>
+						<Cog8ToothIcon className='h-5 w-5' />
+					</button>
+
+					{adminIsOpen && (
+						<nav className='absolute right-0 top-10 min-w-48 rounded-lg bg-white shadow-md'>
+							<Link
+								to='/admin/order-list'
+								className='block px-4 py-2 text-sm text-gray-700 transition-all hover:bg-gray-200 focus:bg-gray-300'>
+								All Orders
+							</Link>
+							<Link
+								to='/admin/user-list'
+								className='block px-4 py-2 text-sm text-gray-700 transition-all hover:bg-gray-200 focus:bg-gray-300'>
+								All Users
+							</Link>
+							<Link
+								to='/admin/product-list'
+								className='block px-4 py-2 text-sm text-gray-700 transition-all hover:bg-gray-200 focus:bg-gray-300'>
+								All Products
+							</Link>
+						</nav>
+					)}
+				</div>
+			)}
+
 		</nav>
 	);
 }

@@ -1,24 +1,117 @@
 import {
-    CheckBadgeIcon,
-    ExclamationTriangleIcon, 
-} from "@heroicons/react/24/solid";
-import { Link, useParams } from "react-router-dom";
+	CheckBadgeIcon,
+	ExclamationTriangleIcon,
+} from '@heroicons/react/24/outline';
+import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { Link, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
-import Alert from "@components/Alert";
-import Loader from "@components/Loader";
-import { useGetOrderDetailsQuery } from "@slices/orderApiSlice";
+import Alert from '@components/Alert';
+import Loader from '@components/Loader';
+import {
+	useDeliverOrderMutation,
+	useGetOrderDetailsQuery,
+	useGetPayPalClientIdQuery,
+	usePayOrderMutation,
+} from '@slices/orderApiSlice';
 
 const OrderScreen = () => {
-    const { id: orderId } = useParams();
+	const { id: orderId } = useParams();
 
-    const { data: order, isLoading, error } = useGetOrderDetailsQuery(orderId);
+	const {
+		data: order,
+		isLoading,
+		error,
+		refetch,
+	} = useGetOrderDetailsQuery(orderId);
 
-    return isLoading ? (
-        <Loader />
-    ) : error ? (
-        <Alert type='error'>{error}</Alert>
-    ) : (
-        <div className='bg-white'>
+	const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
+
+	const [deliverOrder, { isLoading: loadingDeliver }] =
+		useDeliverOrderMutation();
+
+	const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
+
+	const { userInfo } = useSelector((state) => state.auth);
+
+	const {
+		data: paypal,
+		isLoading: loadingPayPal,
+		error: errorPayPal,
+	} = useGetPayPalClientIdQuery();
+
+	useEffect(() => {
+		if (!errorPayPal && !loadingPayPal && paypal.clientId) {
+			const loadPayPalScript = async () => {
+				paypalDispatch({
+					type: 'resetOptions',
+					value: {
+						'client-id': paypal.clientId,
+						currency: 'USD',
+					},
+				});
+			};
+			paypalDispatch({ type: 'setLoadingStatus', value: 'pending' });
+
+			if (order && !order.isPaid) {
+				if (!window.paypal) {
+					loadPayPalScript();
+				}
+			}
+		}
+	}, [order, paypal, paypalDispatch, loadingPay, errorPayPal, loadingPayPal]);
+
+	const onApprove = (data, actions) => {
+		return actions.order.capture().then(async function (details) {
+			try {
+				console.log(details);
+				await payOrder({ id: orderId, details });
+				refetch();
+				toast.success('Order paid successfully');
+			} catch (error) {
+				toast.error(error?.data?.message || error?.message);
+			}
+		});
+	};
+
+	const onError = (error) => {
+		toast.error(error.message);
+	};
+
+	const createOrder = (data, actions) => {
+		return actions.order
+			.create({
+				purchase_units: [
+					{
+						amount: {
+							value: order.totalPrice,
+						},
+					},
+				],
+			})
+			.then((orderId) => {
+				return orderId;
+			});
+	};
+
+	const handleDeliver = async () => {
+		try {
+			await deliverOrder(orderId);
+			refetch();
+			toast.success('Order marked as delivered');
+		} catch (error) {
+			toast.error(error?.data?.message || error?.message);
+		}
+	};
+
+	return isLoading ? (
+		<Loader />
+	) : error ? (
+		<Alert type='error'>{error}</Alert>
+	) : (
+		<div className='bg-white'>
 			<div className='mx-auto max-w-2xl px-4 py-16 pb-24 pt-12 sm:px-6 lg:max-w-7xl lg:px-8'>
 				<h1 className='text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl'>
 					Your Order <span className='text-xl font-medium'>({orderId})</span>
@@ -151,13 +244,48 @@ const OrderScreen = () => {
 								</div>
 							</dl>
 
+							<div className='space-y-6 border-t border-slate-200 px-4 py-6 sm:px-6'>
+								{!order.isPaid && (
+									<>
+										{loadingPay && <Loader />}
+										{isPending ? (
+											<Loader />
+										) : (
+											<div>
+												<PayPalButtons
+													createOrder={createOrder}
+													onApprove={onApprove}
+													onError={onError}
+												/>
+											</div>
+										)}
+									</>
+								)}
+							</div>
+
 							{isLoading && <Loader />}
+						</div>
+
+						<div className='mt-6'>
+							{loadingDeliver && <Loader />}
+
+							{userInfo &&
+								userInfo.isAdmin &&
+								order.isPaid &&
+								!order.isDelivered && (
+									<button
+										onClick={handleDeliver}
+										type='submit'
+										className='w-full rounded-md border border-transparent bg-indigo-600 px-4 py-3 text-base font-medium text-white shadow-sm transition-all hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50'>
+										Mark as delivered
+									</button>
+								)}
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-    )
+	);
 };
 
-export default OrderScreen; 
+export default OrderScreen;

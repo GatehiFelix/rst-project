@@ -15,6 +15,7 @@ const createOrder = async (req, res) => {
         shippingPrice,
         totalPrice,
     } = req.body;
+    console.log(req.body);
 
     if(orderItems && orderItems.length === 0) {
         res.status(400);
@@ -49,6 +50,7 @@ const createOrder = async (req, res) => {
  * @access	Private
  */
 const getMyOrders = async (req, res) => {
+    console.log(req.user);
 	const orders = await OrderModel.find({ user: req.user._id });
     res.status(200).json(orders);
 };
@@ -105,7 +107,19 @@ const updateOrderToPaid = async (req, res) => {
  * @access	Private/Admin
  */
 const updateOrderToDelivered = async (req, res) => {
-	res.send('Update order to delivered');
+	const order = await OrderModel.findById(req.params.id);
+
+    if(order) {
+        order.isDelivered = true;
+        order.deliveredAt = Date.now();
+
+        const updatedOrder = await order.save();
+
+        res.status(200).json(updatedOrder);
+    } else {
+        res.status(404);
+        throw new Error('Order not found');
+    }
 };
 
 /**
@@ -115,6 +129,8 @@ const updateOrderToDelivered = async (req, res) => {
  */
 const getOrders = async (req, res) => {
 	res.send('Get all orders');
+    const orders = await OrderModel.find({}).populate('user', 'id name');
+    res.status(200).json(orders);
 };
 
 export {
