@@ -21,10 +21,10 @@ import PaymentScreen from "@screens/Payment";
 import PlaceOrderScreen from "@screens/PlaceOrder";
 import OrderScreen from "@screens/Order";
 import OrderListScreen from "@screens/OrderList";
+import UserListScreen from "@screens/UserList";
 
 import store from "./store";    
 
-const paypalClientId = import.meta.env.VITE_PAYPAL_CLIENT_ID;
 
 const router = createBrowserRouter([
     {
@@ -93,6 +93,10 @@ const router = createBrowserRouter([
                     {
                         path: '/admin/product/:id/edit',
                         element: <ProductEditScreen />,
+                    },
+                    {
+                        path: '/admin/user-list',
+                        element: <UserListScreen />,
                     }
                 ]
             },
@@ -107,7 +111,6 @@ const App  =() => {
             <PayPalScriptProvider 
                 deferLoading={true}
                 options={{
-                    // "client-id": paypalClientId,
                     currency: 'USD',
                 }}
             >
