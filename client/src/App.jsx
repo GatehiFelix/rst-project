@@ -42,13 +42,21 @@ const router = createBrowserRouter([
                 element: <HomeScreen />,
             },
             {
+                path: '/search/:keyword',
+                element: <HomeScreen />,
+            },
+            {
+                page: '/search/:keyword/page/:pageNumber',
+                element: <HomeScreen />,
+            },
+            {
                 path: '/product/:id',
                 element: <ProductDetailsScreen />,
             },
             {
                 path: '/cart',
                 element: <CartScreen />,
-            },
+            }, 
             {
                 path: '/login',
                 element: <LoginScreen />,
