@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-
+import Paginate from "@components/Paginate";
 import Alert from "@components/Alert";
 import Loader from "@components/Loader";
 import {
@@ -8,10 +8,13 @@ import {
   useDeleteProductMutation,
 } from "@slices/productApiSlice";
 
+import { useParams } from "react-router-dom";
+
 import {toast} from "react-toastify";
 
 const ProductListScreen = () => {
-  const { data: products, error, isLoading, refetch } = useGetProductsQuery();
+  const { pageNumber } = useParams();
+  const { data, error, isLoading, refetch } = useGetProductsQuery({ pageNumber });
 
   const [createProduct, { isLoading: loadingCreate }] =
     useCreateProductMutation();
@@ -110,7 +113,7 @@ const ProductListScreen = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200">
-                    {products.map((product) => (
+                    {data?.products.map((product) => (
                       <tr key={product._id}>
                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
                           {product._id}
@@ -151,7 +154,9 @@ const ProductListScreen = () => {
             </div>
           </div>
         )}
+      <Paginate pages={data?.pages} page={data?.page}  />
       </div>
+
     </div>
   );
 };

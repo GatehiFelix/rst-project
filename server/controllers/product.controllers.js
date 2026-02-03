@@ -1,14 +1,21 @@
 import ProductModel from "../models/product.model.js";
 
 /**
- * @desc   Get all products
- * @route  GET /api/v1/products
+ * @desc   Fetch all products
+ * @route  GET /api/v1/products?pageNumber=3
  * @access Public
  */
 
 const getProducts = async (req, res) => {
-  const product = await ProductModel.find({});
-  res.json(product);
+  const pageSize = 10;
+  const page = +req.query.pageNumber || 1;
+  const count = await ProductModel.countDocuments();
+
+  const products = await ProductModel.find({})
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
+  // console.log(products);
+  res.json({ products, page, pages: Math.ceil(count / pageSize) });
 };
 
 /**
@@ -150,6 +157,8 @@ const createProductReview = async (req, res) => {
     throw new Error("Product not found");
   }
 }
+
+
 
 export {
   getProducts,

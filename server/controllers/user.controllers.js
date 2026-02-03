@@ -129,16 +129,25 @@ const updateUserProfile = async (req, res) => {
         res.status(404);
         throw new Error('User not found');
     }
-}
+};
 
 /**
- * @desc  Get all users
- * @route GET /api/v1/users
- * @access Private/Admin
+ * @desc		Get all users
+ * @route		GET /api/v1/users
+ * @access	Private/Admin
  */
-const getUsers  = async (req, res) => {
-    const users= await UserModel.find({});
-    res.status(200).json(users);
+
+const getUsers = async (req, res) => {
+    const pageSize = 10;
+    const page = +req.query.pageNumber || 1;
+    const count = await UserModel.countDocuments({});
+    console.log(count);
+
+    const users = await UserModel.find({})
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
+    console.log(users);
+    res.status(200).json({ users, page, pages: Math.ceil(count / pageSize) });
 }
 
 /**

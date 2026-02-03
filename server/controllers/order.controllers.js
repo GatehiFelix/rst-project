@@ -49,8 +49,14 @@ const createOrder = async (req, res) => {
  * @access	Private
  */
 const getMyOrders = async (req, res) => {
-	const orders = await OrderModel.find({ user: req.user._id });
-    res.status(200).json(orders);
+    const pageSize = 4;
+    const page = +req.query.pageNumber || 1;
+    const count = await OrderModel.countDocuments({ user: req.user._id });
+
+	const orders = await OrderModel.find({ user: req.user._id })
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
+    res.status(200).json({ orders, page, pages: Math.ceil(count / pageSize) });
 };
 
 /**
@@ -126,8 +132,14 @@ const updateOrderToDelivered = async (req, res) => {
  * @access	Private/Admin
  */
 const getOrders = async (req, res) => {
-    const orders = await OrderModel.find({}).populate('user', 'id name');
-    res.status(200).json(orders);
+    const pageSize = 10;
+    const page = +req.query.pageNumber || 1;
+    const count = await OrderModel.countDocuments();
+
+    const orders = await OrderModel.find({}).populate('user', 'id name')
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
+    res.status(200).json({orders,  page, pages: Math.ceil(count / pageSize) });
 };
 
 export {

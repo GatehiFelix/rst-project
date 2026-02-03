@@ -1,13 +1,15 @@
 import { CheckCircleIcon } from '@heroicons/react/24/outline';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
+import Paginate from '@components/Paginate';
 import Alert from '@components/Alert';
 import Loader from '@components/Loader';
 import { useGetUsersQuery, useDeleteUserMutation } from '@slices/userApiSlice';
 import { toast } from 'react-toastify';
 
 const UserListScreen = () => {
-	const { data: users, error, isLoading, refetch } = useGetUsersQuery();
+	const { pageNumber } = useParams();
+	const { data, error, isLoading, refetch } = useGetUsersQuery({ pageNumber });
 
     const [deleteUser, { isLoading: loadingDelete }] = useDeleteUserMutation();
 
@@ -72,7 +74,7 @@ const UserListScreen = () => {
 										</tr>
 									</thead>
 									<tbody className='divide-y divide-gray-200'>
-										{users.map((user) => (
+										{data?.users.map((user) => (
 											<tr key={user._id}>
 												<td className='whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0'>
 													{user._id}
@@ -111,6 +113,8 @@ const UserListScreen = () => {
 						</div>
 					</div>
 				)}
+
+				<Paginate pages={data?.pages} page={data?.page} />
 			</div>
 		</div>
 	);

@@ -7,13 +7,16 @@ import Loader from '@components/Loader';
 import { setCredentials } from '@slices/authSlice';
 import { useGetMyOrdersQuery } from '@slices/orderApiSlice';
 import { useProfileMutation } from '@slices/userApiSlice';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import Paginate from '@components/Paginate';
 
 const ProfileScreen = () => {
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
+
+	const { pageNumber } = useParams();
 
 	const dispatch = useDispatch();
 	const { userInfo } = useSelector((state) => state.auth);
@@ -22,10 +25,10 @@ const ProfileScreen = () => {
 		useProfileMutation();
 
 	const {
-		data: orders,
+		data,
 		isLoading: loadingOrders,
 		error: errorOrders,
-	} = useGetMyOrdersQuery();
+	} = useGetMyOrdersQuery({ pageNumber });
 
 	useEffect(() => {
 		if (userInfo) {
@@ -168,7 +171,7 @@ const ProfileScreen = () => {
 						<h2 className='sr-only'>Recent orders</h2>
 
 						<div className='space-y-20'>
-							{orders?.map((order, i) => (
+							{data?.orders?.map((order, i) => (
 								<div key={order._id}>
 									<div className='rounded-lg bg-slate-50 px-4 py-6 sm:flex sm:items-center sm:justify-between sm:space-x-6 sm:px-6 lg:space-x-8'>
 										<dl className='flex flex-auto justify-between space-y-6 divide-y divide-slate-200 text-sm text-slate-600 sm:gap-x-6 sm:space-y-0 sm:divide-y-0 lg:w-full lg:flex-none lg:gap-x-8'>
@@ -281,6 +284,8 @@ const ProfileScreen = () => {
 						</div>
 					</div>
 				)}
+
+				<Paginate pages={data?.pages} page={data?.page} />
 			</div>
 		</div>
 	);

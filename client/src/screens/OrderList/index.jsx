@@ -4,12 +4,12 @@ import Alert from "@components/Alert"
 import Loader from "@components/Loader"
 import { useGetOrdersQuery } from "@slices/orderApiSlice"
 
-
+import { useParams } from "react-router-dom"
+import Paginate from "@components/Paginate"
 
 const OrderListScreen = () => {
-    const {data: orders, isLoading, error} = useGetOrdersQuery();
-
-
+    const { pageNumber } = useParams();
+    const {data, isLoading, error} = useGetOrdersQuery({ pageNumber });
 return (
 		<div className='bg-white'>
 			<div className='mx-auto max-w-2xl px-4 pb-24 pt-16 sm:px-6 lg:max-w-7xl lg:px-8'>
@@ -66,7 +66,7 @@ return (
 										</tr>
 									</thead>
 									<tbody className='divide-y divide-gray-200'>
-										{orders.map((order) => (
+										{data?.orders.map((order) => (
 											<tr key={order._id}>
 												<td className='whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0'>
 													{order._id}
@@ -117,6 +117,8 @@ return (
 						</div>
 					</div>
 				)}
+
+				<Paginate pages={data?.pages} page={data?.page} />
 			</div>
 		</div>
 	);

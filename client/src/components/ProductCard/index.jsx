@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 
 const ProductCard = ({ product }) => {
     return (
-        <Link to={`product/${product._id}`}>
+        <Link to={`/product/${product._id}`}>
             <CardImage image={product.image} name={product.name}  />
 
             <div className='mt-2 flex justify-between gap-4'>

@@ -98,7 +98,7 @@ const ProductDetailsScreen = () => {
 										{product.name}
 									</h1>
 									<p className='text-2xl font-medium text-slate-900'>
-										₹{product.price}
+										${product.price}
 									</p>
 								</div>
 

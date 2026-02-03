@@ -2,9 +2,14 @@ import Loader from "@components/Loader";
 import Alert from "@components/Alert";
 import ProductCard from "@components/ProductCard";
 import { useGetProductsQuery } from '@slices/productApiSlice';
+import { useParams } from "react-router-dom";
+import Paginate from "@components/Paginate";
 
 const HomeScreen = () => {
-    const { data: products, isLoading, isError, error} = useGetProductsQuery();
+
+    const {pageNumber} = useParams();
+    const { data, isLoading, isError, error} = useGetProductsQuery({ pageNumber });
+
 
     return (
         <section className="bg-white">
@@ -17,11 +22,13 @@ const HomeScreen = () => {
                     <Alert type="error">{error?.data?.message || error.error}</Alert>
                 ) : (
                     <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                          {products?.map((product) => (
+                          {data?.products?.map((product) => (
                               <ProductCard key={product._id} product={product} />
                           ))}
                     </div>
                 )}
+
+                <Paginate pages={data?.pages} page={data?.page} />
             </div>
         </section>
     )
